@@ -40,6 +40,7 @@ var validate = Validator({
 
 ## MIT Licenced
 
+
   [1]: https://secure.travis-ci.org/Colingo/validate-form.png
   [2]: https://travis-ci.org/Colingo/validate-form
   [3]: https://badge.fury.io/js/validate-form.png
