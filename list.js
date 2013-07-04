@@ -48,7 +48,7 @@ function list(options, message) {
 
                 contentValidator.forEach(function runValidator(validator) {
                     addError(errors, childKey,
-                        validator(childValue, childKey, value))
+                        validator(childValue, childKey, value, values))
                 })
             })
         }

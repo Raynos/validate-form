@@ -13,7 +13,7 @@ function Validator(schema) {
         }
     })
 
-    return function validate(value, key) {
+    return function validate(value, key, values) {
         var errors = []
 
         keys.forEach(function validateKey(childKey) {
@@ -26,7 +26,7 @@ function Validator(schema) {
 
             validators.forEach(function runValidator(validator) {
                 addError(errors, childKey,
-                    validator(childValue, childKey, value))
+                    validator(childValue, childKey, value, values))
             })
         })
 
