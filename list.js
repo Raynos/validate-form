@@ -10,7 +10,6 @@ var MAX_MESSAGE = "Expected %s to contain at most %d items"
 module.exports = list
 
 function list(options, message) {
-
     var minValidator, maxValidator, lengthValidator
     var contentValidator = options.content
 
@@ -42,7 +41,10 @@ function list(options, message) {
 
         if (contentValidator) {
             value.forEach(function (childValue, index) {
-                var childKey = key + "[" + index + "]"
+                var childKey = "[" + index + "]"
+                if (key) {
+                    childKey = key + childKey
+                }
 
                 contentValidator.forEach(function runValidator(validator) {
                     addError(errors, childKey,
