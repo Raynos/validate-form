@@ -1,6 +1,6 @@
 var format = require("./lib/format")
 
-var MESSAGE = "Expected %s to be at exactly %d characters long"
+var MESSAGE = "Expected %s to be exactly %d characters long"
 
 module.exports = length
 

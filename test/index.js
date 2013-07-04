@@ -1,15 +1,16 @@
 var test = require("tape")
 
-var Validator = require("../index")
-var truthy = require("../truthy")
-var range = require("../range")
-var isEmail = require("../email")
-var isCreditCard = require("../credit-card")
-var min = require("../min")
-var max = require("../max")
-var length = require("../length")
-var match = require("../match")
-var memberOf = require("../member-of")
+var Validator = require("../hash.js")
+var truthy = require("../truthy.js")
+var range = require("../range.js")
+var isEmail = require("../email.js")
+var isCreditCard = require("../credit-card.js")
+var min = require("../min.js")
+var max = require("../max.js")
+var length = require("../length.js")
+var match = require("../match.js")
+var memberOf = require("../member-of.js")
+var list = require("../list.js")
 
 test("Validator is a function", function (assert) {
     assert.equal(typeof Validator, "function")
@@ -318,7 +319,7 @@ test("length(n, message)", function (assert) {
 
     assert.deepEqual(errors1, [{
         attribute: "key1",
-        message: "Expected key1 to be at exactly 4 characters long"
+        message: "Expected key1 to be exactly 4 characters long"
     }, {
         attribute: "key2",
         message: "got's to be the right length"
@@ -375,6 +376,55 @@ test("memberOf(whiteList, message)", function (assert) {
         message: "Expected key1 to be in set { 1, 2, 3 }"
     }, {
         attribute: "key2",
+        message: "not in set!"
+    }])
+    assert.equal(errors2, null)
+
+    assert.end()
+})
+
+test("list({ min, max, length, content }, message)", function (assert) {
+    var validate = Validator({
+        key1: [list({
+            min: 5,
+            max: 7,
+            content: [truthy()]
+        })],
+        key2: [list({
+            min: 4,
+            max: 8
+        })],
+        key3: [list({
+            length: 3,
+            content: [memberOf(["1", "2", "3"], "not in set!")]
+        }, "wrong list error thing")]
+    })
+
+    var errors1 = validate({
+        key1: ["valid", "number of items", "but", "fail", "", "truthy"],
+        key2: ["invalid", "number", "of items"],
+        key3: ["valid", "amount", "but not match enum"]
+    })
+    var errors2 = validate({
+        key1: ["1", "2", "3", "4", "5", "6"],
+        key2: ["1", "2", "3", "4", "5"],
+        key3: ["1", "2", "3"]
+    })
+
+    assert.deepEqual(errors1, [{
+        attribute: "key1[4]",
+        message: "Expected key1[4] to be truthy"
+    }, {
+        attribute: "key2",
+        message: "Expected key2 to contain at least 4 items"
+    }, {
+        attribute: "key3[0]",
+        message: "not in set!"
+    }, {
+        attribute: "key3[1]",
+        message: "not in set!"
+    }, {
+        attribute: "key3[2]",
         message: "not in set!"
     }])
     assert.equal(errors2, null)

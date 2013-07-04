@@ -16,6 +16,7 @@ var isCreditCard = require("validate-form/credit-card")
 var range = require("validate-form/range")
 var match = require("validate-form/match")
 var memberOf = require("validate-form/member-of")
+var list = require("validate-form/list")
 
 var validDate = /^\d\d\d\d\/\d\d$/
 var countries = ["US-en", "UK-en", "BR-pt", ...]
@@ -26,7 +27,11 @@ var validate = Validator({
   cardNumber: [isCreditCard()],
   cvv: [range(3, 4)],
   expirationDate: [match(validDate)],
-  country: [memberOf(countries, "enter valid country code")]
+  country: [memberOf(countries, "enter valid country code")],
+  interest: [list({
+    min: 3,
+    content: [truthy()]
+  })]
 })
 ```
 
