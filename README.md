@@ -35,6 +35,16 @@ var validate = Validator({
 })
 ```
 
+## Docs
+
+```ocaml
+type Validation := (value: Any, key: String, parent: Object)
+type ValidateError = { attribute: String, message: String }
+
+validate-form := (Object<String, Array<Validation>) =>
+    Array<ValidationError> | null
+```
+
 ## Installation
 
 `npm install validate-form`
