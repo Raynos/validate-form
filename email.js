@@ -10,7 +10,7 @@ function isEmail(message) {
 
     return function validate(value, key) {
         if (!EMAIL_REGEX.test(value)) {
-            return format(message, key)
+            return { message: format(message, key), type: "email" }
         }
     }
 }

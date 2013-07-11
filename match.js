@@ -9,7 +9,10 @@ function match(regex, message) {
 
     return function validate(value, key) {
         if (!regex.test(value)) {
-            return format(message, key, String(regex))
+            return {
+                message: format(message, key, String(regex)),
+                type: "match"
+            }
         }
     }
 }

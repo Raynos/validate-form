@@ -9,7 +9,10 @@ function memberOf(set, message) {
 
     return function validate(value, key) {
         if (set.indexOf(value) === -1) {
-            return format(message, key, set.join(", "))
+            return {
+                message: format(message, key, set.join(", ")),
+                type: "memberOf"
+            }
         }
     }
 }

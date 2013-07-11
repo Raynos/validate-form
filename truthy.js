@@ -9,7 +9,7 @@ function truthy(message) {
 
     return function validate(value, key) {
         if (!value) {
-            return format(message, key)
+            return { message: format(message, key), type: "truthy" }
         }
     }
 }

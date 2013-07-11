@@ -10,7 +10,7 @@ function isCreditCard(message) {
 
     return function validate(value, key) {
         if (!CreditCard.validate(value)) {
-            return format(message, key)
+            return { message: format(message, key), type: "creditCard" }
         }
     }
 }

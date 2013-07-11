@@ -28,12 +28,14 @@ test("Validator can validate objects", function (assert) {
 
     assert.deepEqual(errors1, [{
         attribute: "key",
-        message: "Expected key to be truthy"
+        message: "Expected key to be truthy",
+        type: "truthy"
     }])
     assert.equal(errors2, null)
     assert.deepEqual(errors3, [{
         attribute: "key",
-        message: "Expected key to be truthy"
+        message: "Expected key to be truthy",
+        type: "truthy"
     }])
 
     assert.end()
@@ -52,10 +54,12 @@ test("Validator can validate multiple attributes", function (assert) {
     assert.equal(errors1, null)
     assert.deepEqual(errors2, [{
         attribute: "key2",
-        message: "Expected key2 to be truthy"
+        message: "Expected key2 to be truthy",
+        type: "truthy"
     }, {
         attribute: "key3",
-        message: "Expected key3 to be truthy"
+        message: "Expected key3 to be truthy",
+        type: "truthy"
     }])
 
     assert.end()
@@ -72,17 +76,21 @@ test("multiple validations per key", function (assert) {
 
     assert.deepEqual(errors1, [{
         message: "Expected key to be truthy",
-        attribute: "key"
+        attribute: "key",
+        type: "truthy"
     }, {
         message: "Expected key to be between 5 and 8 characters long",
-        attribute: "key"
+        attribute: "key",
+        type: "range"
     }])
     assert.deepEqual(errors2, [{
         message: "Expected key to be truthy",
-        attribute: "key"
+        attribute: "key",
+        type: "truthy"
     }, {
         message: "Expected key to be between 5 and 8 characters long",
-        attribute: "key"
+        attribute: "key",
+        type: "range"
     }])
     assert.equal(errors3, null)
 
@@ -99,7 +107,8 @@ test("using function instead of array in schema", function (assert) {
 
     assert.deepEqual(errors1, [{
         attribute: "key",
-        message: "Expected key to be truthy"
+        message: "Expected key to be truthy",
+        type: "truthy"
     }])
     assert.equal(errors2, null)
 
@@ -110,7 +119,7 @@ test("can use custom function", function (assert) {
     function beGood() {
         return function (value) {
             if (value !== "good") {
-                return "You got's to be good"
+                return { message: "You got's to be good", type: "custom" }
             }
         }
     }
@@ -124,7 +133,8 @@ test("can use custom function", function (assert) {
 
     assert.deepEqual(errors1, [{
         attribute: "key",
-        message: "You got's to be good"
+        message: "You got's to be good",
+        type: "custom"
     }])
     assert.equal(errors2, null)
 
@@ -140,7 +150,8 @@ test("message formatting is optional with placeholders", function (assert) {
 
     assert.deepEqual(errors, [{
         attribute: "key",
-        message: "Invalid range"
+        message: "Invalid range",
+        type: "range"
     }])
 
     assert.end()
@@ -160,10 +171,12 @@ test("truthy(message)", function (assert) {
 
     assert.deepEqual(errors1, [{
         attribute: "key1",
-        message: "Expected key1 to be truthy"
+        message: "Expected key1 to be truthy",
+        type: "truthy"
     }, {
         attribute: "key2",
-        message: "custom error for key2"
+        message: "custom error for key2",
+        type: "truthy"
     }])
     assert.equal(errors2, null)
 
@@ -184,10 +197,12 @@ test("range(n, m, message)", function (assert) {
 
     assert.deepEqual(errors1, [{
         attribute: "key1",
-        message: "Expected key1 to be between 5 and 8 characters long"
+        message: "Expected key1 to be between 5 and 8 characters long",
+        type: "range"
     }, {
         attribute: "key2",
-        message: "key2 Must be greater then 5 and less then 8"
+        message: "key2 Must be greater then 5 and less then 8",
+        type: "range"
     }])
     assert.equal(errors2, null)
 
@@ -211,10 +226,12 @@ test("isEmail(message)", function (assert) {
 
     assert.deepEqual(errors1, [{
         attribute: "key1",
-        message: "Expected key1 to be a valid email address"
+        message: "Expected key1 to be a valid email address",
+        type: "email"
     }, {
         attribute: "key2",
-        message: "Invalid email in key2"
+        message: "Invalid email in key2",
+        type: "email"
     }])
     assert.equal(errors2, null)
 
@@ -238,10 +255,12 @@ test("isCreditCard(message)", function (assert) {
 
     assert.deepEqual(errors1, [{
         attribute: "key1",
-        message: "Expected key1 to be a valid credit card"
+        message: "Expected key1 to be a valid credit card",
+        type: "creditCard"
     }, {
         attribute: "key2",
-        message: "give us a real card yo."
+        message: "give us a real card yo.",
+        type: "creditCard"
     }])
     assert.equal(errors2, null)
 
@@ -265,10 +284,12 @@ test("min(n, message)", function (assert) {
 
     assert.deepEqual(errors1, [{
         attribute: "key1",
-        message: "Expected key1 to be at least 10 characters long"
+        message: "Expected key1 to be at least 10 characters long",
+        type: "min"
     }, {
         attribute: "key2",
-        message: "be at least 12"
+        message: "be at least 12",
+        type: "min"
     }])
     assert.equal(errors2, null)
 
@@ -292,10 +313,12 @@ test("max(m, message)", function (assert) {
 
     assert.deepEqual(errors1, [{
         attribute: "key1",
-        message: "Expected key1 to be at most 5 characters long"
+        message: "Expected key1 to be at most 5 characters long",
+        type: "max"
     }, {
         attribute: "key2",
-        message: "be at most 4"
+        message: "be at most 4",
+        type: "max"
     }])
     assert.equal(errors2, null)
 
@@ -319,10 +342,12 @@ test("length(n, message)", function (assert) {
 
     assert.deepEqual(errors1, [{
         attribute: "key1",
-        message: "Expected key1 to be exactly 4 characters long"
+        message: "Expected key1 to be exactly 4 characters long",
+        type: "length"
     }, {
         attribute: "key2",
-        message: "got's to be the right length"
+        message: "got's to be the right length",
+        type: "length"
     }])
     assert.equal(errors2, null)
 
@@ -346,10 +371,12 @@ test("match(regex, message)", function (assert) {
 
     assert.deepEqual(errors1, [{
         attribute: "key1",
-        message: "Expected key1 to match /^\\d\\d\\d\\d\\/\\d\\d$/"
+        message: "Expected key1 to match /^\\d\\d\\d\\d\\/\\d\\d$/",
+        type: "match"
     }, {
         attribute: "key2",
-        message: "custom message"
+        message: "custom message",
+        type: "match"
     }])
     assert.equal(errors2, null)
 
@@ -373,10 +400,12 @@ test("memberOf(whiteList, message)", function (assert) {
 
     assert.deepEqual(errors1, [{
         attribute: "key1",
-        message: "Expected key1 to be in set { 1, 2, 3 }"
+        message: "Expected key1 to be in set { 1, 2, 3 }",
+        type: "memberOf"
     }, {
         attribute: "key2",
-        message: "not in set!"
+        message: "not in set!",
+        type: "memberOf"
     }])
     assert.equal(errors2, null)
 
@@ -413,30 +442,26 @@ test("list({ min, max, length, content }, message)", function (assert) {
 
     assert.deepEqual(errors1, [{
         attribute: "key1[4]",
-        message: "Expected key1[4] to be truthy"
+        message: "Expected key1[4] to be truthy",
+        type: "truthy"
     }, {
         attribute: "key2",
-        message: "Expected key2 to contain at least 4 items"
+        message: "Expected key2 to contain at least 4 items",
+        type: "min"
     }, {
         attribute: "key3[0]",
-        message: "not in set!"
+        message: "not in set!",
+        type: "memberOf"
     }, {
         attribute: "key3[1]",
-        message: "not in set!"
+        message: "not in set!",
+        type: "memberOf"
     }, {
         attribute: "key3[2]",
-        message: "not in set!"
+        message: "not in set!",
+        type: "memberOf"
     }])
     assert.equal(errors2, null)
 
     assert.end()
 })
-
-// var errors = validate(body, {
-//     "firstName": [truthy()],
-//     "lastName": [truthy()],
-//     "email": [truthy(), isEmail()],
-//     "cardNumber": [truthy(), isCreditCardNumber()],
-//     "cvv": [truthy(), range(3, 4)],
-//     "expirationDate": [truthy(), match(/\d\d\d\d\/\d\d/)]
-// })

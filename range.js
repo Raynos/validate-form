@@ -9,7 +9,7 @@ function range(n, m, message) {
 
     return function validate(value, key) {
         if (!value || value.length < n || value.length > m) {
-            return format(message, key, n, m)
+            return { message: format(message, key, n, m), type: "range" }
         }
     }
 }

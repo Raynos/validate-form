@@ -9,7 +9,7 @@ function max(m, message) {
 
     return function validate(value, key) {
         if (!value || value.length > m) {
-            return format(message, key, m)
+            return { message: format(message, key, m), type: "max" }
         }
     }
 }

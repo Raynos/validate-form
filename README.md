@@ -35,14 +35,64 @@ var validate = Validator({
 })
 ```
 
+## Creating your own validators
+
+You can use custom functions as validators. A validator function takes the
+  value to validate as an argument, the key for that value and the
+  parent object that the value is on.
+
+You can use the key to make more readable validation errors and you
+  can use the parent to do validation logic across multiple properties
+
+A validator should either return nothing or an error or an array of errors,
+  an error in this case is `{ message: String, type: String }`. The type
+  is useful if you want to show custom error messages in the UI, then you
+  can ignore the message and use a custom error message for each type of
+  validation error.
+
+```js
+var Validator = require("validate-form")
+
+var validate = Validator({
+  name: [function isValidName(value, key, parent) {
+    var message = ""
+    if (typeof value !== "string") {
+      message = key + " should be a string"
+    } else if (value.length < 4) {
+      message = key + " should be at least 4 characters"
+    }
+
+    if (message) {
+      return { message: message, type: "invalidName" }
+    }
+  }]
+})
+```
+
 ## Docs
 
 ```ocaml
-type Validation := (value: Any, key: String, parent: Object)
-type ValidateError = { attribute: String, message: String }
+type AlmostValidateError := {
+    type: ValidateErrorType, message: String
+}
+type PossibleValidateError = Array<AlmostValidateError> |
+    AlmostValidateError | null
 
-validate-form := (Object<String, Array<Validation>) =>
+type Validator := (value: Any, key: String, parent: Object) =>
+    PossibleValidateError
+type ValidateErrorType := "creditCard" | "email" | "length" |
+  "match" | "max" | "memberOf" | "min" | "range" | "truthy"
+type ValidateError := {
+  attribute: String,
+  message: String,
+  type: ValidateErrorType
+}
+
+validate-form := (Object<String, Array<Validator>>) =>
     Array<ValidationError> | null
+
+validate-form/add-error := (errors: Array<ValidationError>, key: String,
+    maybeError: PossibleValidateError) => Array<ValidationError>
 ```
 
 ## Installation

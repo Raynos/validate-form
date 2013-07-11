@@ -9,7 +9,7 @@ function length(n, message) {
 
     return function validate(value, key) {
         if (!value || value.length !== n) {
-            return format(message, key, n)
+            return { message: format(message, key, n), type: "length" }
         }
     }
 }
