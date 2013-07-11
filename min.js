@@ -10,8 +10,13 @@ function min(n, message) {
     var numberMessage = message || NUMBER_MESSAGE
 
     return function validate(value, key) {
-        if (typeof value === "number" && value < n) {
-            return { message: format(numberMessage, key, n), type: "min" }
+        if (typeof value === "number") {
+            if (value < n) {
+                return {
+                    message: format(numberMessage, key, n),
+                    type: "min"
+                }
+            }
         } else if (!value || value.length < n) {
             return { message: format(listMessage, key, n), type: "min" }
         }

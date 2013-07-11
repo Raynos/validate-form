@@ -10,8 +10,13 @@ function max(m, message) {
     var numberMessage = message || NUMBER_MESSAGE
 
     return function validate(value, key) {
-        if (typeof value === "number" && value > m) {
-            return { message: format(numberMessage, key, m), type: "max" }
+        if (typeof value === "number") {
+            if (value > m) {
+                return {
+                    message: format(numberMessage, key, m),
+                    type: "max"
+                }
+            }
         } else if (!value || value.length > m) {
             return { message: format(listMessage, key, m), type: "max" }
         }

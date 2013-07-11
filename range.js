@@ -10,8 +10,13 @@ function range(n, m, message) {
     var numberMessage = message || NUMBER_MESSAGE
 
     return function validate(value, key) {
-        if (typeof value === "number" && (value < n || value > m)) {
-            return { message: format(numberMessage, key, n, m), type: "range" }
+        if (typeof value === "number") {
+            if (value < n || value > m) {
+                return {
+                    message: format(numberMessage, key, n, m),
+                    type: "range"
+                }
+            }
         } else if (!value || value.length < n || value.length > m) {
             return { message: format(listMessage, key, n, m), type: "range" }
         }
