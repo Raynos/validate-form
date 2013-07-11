@@ -1,15 +1,19 @@
 var format = require("./lib/format")
 
-var MESSAGE = "Expected %s to be at most %d characters long"
+var LIST_MESSAGE = "Expected %s to be at most %d characters long"
+var NUMBER_MESSAGE = "Expected %s to be at most %d"
 
 module.exports = max
 
 function max(m, message) {
-    message = message || MESSAGE
+    var listMessage = message || LIST_MESSAGE
+    var numberMessage = message || NUMBER_MESSAGE
 
     return function validate(value, key) {
-        if (!value || value.length > m) {
-            return { message: format(message, key, m), type: "max" }
+        if (typeof value === "number" && value > m) {
+            return { message: format(numberMessage, key, m), type: "max" }
+        } else if (!value || value.length > m) {
+            return { message: format(listMessage, key, m), type: "max" }
         }
     }
 }

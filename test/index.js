@@ -194,6 +194,10 @@ test("range(n, m, message)", function (assert) {
         key1: "6 char",
         key2: "7 chars"
     })
+    var errors3 = validate({
+        key1: 6,
+        key2: 9
+    })
 
     assert.deepEqual(errors1, [{
         attribute: "key1",
@@ -205,6 +209,11 @@ test("range(n, m, message)", function (assert) {
         type: "range"
     }])
     assert.equal(errors2, null)
+    assert.deepEqual(errors3, [{
+        attribute: "key2",
+        message: "key2 Must be greater then 5 and less then 8",
+        type: "range"
+    }])
 
     assert.end()
 })
@@ -281,6 +290,10 @@ test("min(n, message)", function (assert) {
         key1: "1234567890",
         key2: "1234567890123"
     })
+    var errors3 = validate({
+        key1: 5,
+        key2: 12
+    })
 
     assert.deepEqual(errors1, [{
         attribute: "key1",
@@ -292,6 +305,11 @@ test("min(n, message)", function (assert) {
         type: "min"
     }])
     assert.equal(errors2, null)
+    assert.deepEqual(errors3, [{
+        attribute: "key1",
+        message: "Expected key1 to be at least 10",
+        type: "min"
+    }])
 
     assert.end()
 })
@@ -310,6 +328,10 @@ test("max(m, message)", function (assert) {
         key1: "12345",
         key2: "123"
     })
+    var errors3 = validate({
+        key1: 6,
+        key2: 4
+    })
 
     assert.deepEqual(errors1, [{
         attribute: "key1",
@@ -321,6 +343,11 @@ test("max(m, message)", function (assert) {
         type: "max"
     }])
     assert.equal(errors2, null)
+    assert.deepEqual(errors3, [{
+        attribute: "key1",
+        message: "Expected key1 to be at most 5",
+        type: "max"
+    }])
 
     assert.end()
 })

@@ -1,15 +1,19 @@
 var format = require("./lib/format")
 
-var MESSAGE = "Expected %s to be at least %d characters long"
+var LIST_MESSAGE = "Expected %s to be at least %d characters long"
+var NUMBER_MESSAGE = "Expected %s to be at least %d"
 
 module.exports = min
 
 function min(n, message) {
-    message = message || MESSAGE
+    var listMessage = message || LIST_MESSAGE
+    var numberMessage = message || NUMBER_MESSAGE
 
     return function validate(value, key) {
-        if (!value || value.length < n) {
-            return { message: format(message, key, n), type: "min" }
+        if (typeof value === "number" && value < n) {
+            return { message: format(numberMessage, key, n), type: "min" }
+        } else if (!value || value.length < n) {
+            return { message: format(listMessage, key, n), type: "min" }
         }
     }
 }
