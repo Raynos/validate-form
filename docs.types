@@ -7,7 +7,7 @@ type PossibleValidateError = Array<AlmostValidateError> |
 type Validator := (value: Any, key: String, parent: Object) =>
     PossibleValidateError
 type ValidateErrorType := "creditCard" | "email" | "length" |
-  "match" | "max" | "memberOf" | "min" | "range" | "truthy"
+  "match" | "max" | "memberOf" | "min" | "range" | "truthy" | "type"
 type ValidateError := {
   attribute: String,
   message: String,

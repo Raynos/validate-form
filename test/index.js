@@ -2,6 +2,7 @@ var test = require("tape")
 
 var Validator = require("../hash.js")
 var truthy = require("../truthy.js")
+var type = require("../type.js")
 var range = require("../range.js")
 var isEmail = require("../email.js")
 var isCreditCard = require("../credit-card.js")
@@ -177,6 +178,49 @@ test("truthy(message)", function (assert) {
         attribute: "key2",
         message: "custom error for key2",
         type: "truthy"
+    }])
+    assert.equal(errors2, null)
+
+    assert.end()
+})
+
+test("type(type, message)", function (assert) {
+    var validate = Validator({
+        bool: type(Boolean),
+        str: type(String),
+        obj: type(Object),
+        num: type(Number)
+    })
+
+    var errors1 = validate({
+        bool: "",
+        str: {},
+        obj: 0,
+        num: true
+    })
+    var errors2 = validate({
+        bool: true,
+        str: "",
+        obj: {},
+        num: 0
+    })
+
+    assert.deepEqual(errors1, [{
+        message: "Expected bool to be a boolean",
+        attribute: "bool",
+        type: "type"
+    }, {
+        message: "Expected str to be a string",
+        attribute: "str",
+        type: "type"
+    }, {
+        message: "Expected obj to be a object",
+        attribute: "obj",
+        type: "type"
+    }, {
+        message: "Expected num to be a number",
+        attribute: "num",
+        type: "type"
     }])
     assert.equal(errors2, null)
 
