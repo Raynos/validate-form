@@ -1,4 +1,5 @@
-var addError = require("./add-error")
+var addError = require("./lib/add-error")
+var normalize = require("./lib/normalize")
 
 module.exports = Validator
 
@@ -6,28 +7,22 @@ function Validator(schema) {
     var keys = Object.keys(schema)
 
     keys.forEach(function (key) {
-        var validators = schema[key]
-
-        if (!Array.isArray(validators)) {
-            schema[key] = [validators]
-        }
+        schema[key] = normalize(schema[key])
     })
 
-    return function validate(value, key, values) {
+    return function validate(value, key, parent, object) {
         var errors = []
 
         keys.forEach(function validateKey(childKey) {
             var childValue = value[childKey]
-            var validators = schema[childKey]
+            var validator = schema[childKey]
 
             if (key) {
                 childKey = key + "." + childKey
             }
 
-            validators.forEach(function runValidator(validator) {
-                addError(errors, childKey,
-                    validator(childValue, childKey, value, values))
-            })
+            addError(errors, childKey,
+                validator(childValue, childKey, value, object))
         })
 
         return errors.length ? errors : null

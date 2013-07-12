@@ -1,4 +1,5 @@
-var addError = require("./add-error")
+var addError = require("./lib/add-error")
+var normalize = require("./lib/normalize")
 var min = require("./min")
 var max = require("./max")
 var length = require("./length")
@@ -23,20 +24,20 @@ function list(options, message) {
         lengthValidator = length(options.length, message || LENGTH_MESSAGE)
     }
 
-    if (contentValidator && !Array.isArray(contentValidator)) {
-        contentValidator = [contentValidator]
+    if (contentValidator) {
+        contentValidator = normalize(contentValidator)
     }
 
-    return function validate(value, key, values) {
+    return function validate(value, key, parent, object) {
         var errors = []
         if (minValidator) {
-            addError(errors, key, minValidator(value, key, values))
+            addError(errors, key, minValidator(value, key, parent, object))
         }
         if (maxValidator) {
-            addError(errors, key, maxValidator(value, key, values))
+            addError(errors, key, maxValidator(value, key, parent, object))
         }
         if (lengthValidator) {
-            addError(errors, key, lengthValidator(value, key, values))
+            addError(errors, key, lengthValidator(value, key, parent, object))
         }
 
         if (contentValidator) {
@@ -46,10 +47,8 @@ function list(options, message) {
                     childKey = key + childKey
                 }
 
-                contentValidator.forEach(function runValidator(validator) {
-                    addError(errors, childKey,
-                        validator(childValue, childKey, value, values))
-                })
+                addError(errors, childKey,
+                    contentValidator(childValue, childKey, value, object))
             })
         }
 

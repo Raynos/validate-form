@@ -12,6 +12,7 @@ var length = require("../length.js")
 var match = require("../match.js")
 var memberOf = require("../member-of.js")
 var list = require("../list.js")
+var optional = require("../optional.js")
 
 test("Validator is a function", function (assert) {
     assert.equal(typeof Validator, "function")
@@ -531,6 +532,42 @@ test("list({ min, max, length, content }, message)", function (assert) {
         attribute: "key3[2]",
         message: "not in set!",
         type: "memberOf"
+    }])
+    assert.equal(errors2, null)
+
+    assert.end()
+})
+
+test("optional(validator)", function (assert) {
+    var validate = Validator({
+        key1: optional(truthy()),
+        key2: optional([range(0, 5)]),
+        key3: optional([truthy()])
+    })
+
+    var errors1 = validate({
+        key1: false,
+        key2: -5,
+        key3: 0
+    })
+    var errors2 = validate({
+        key1: null,
+        key2: undefined,
+        key3: true
+    })
+
+    assert.deepEqual(errors1, [{
+        message: "Expected key1 to be truthy",
+        type: "truthy",
+        attribute: "key1"
+    }, {
+        message: "Expected key2 to between 0 and 5",
+        type: "range",
+        attribute: "key2"
+    }, {
+        message: "Expected key3 to be truthy",
+        type: "truthy",
+        attribute: "key3"
     }])
     assert.equal(errors2, null)
 
