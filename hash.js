@@ -21,7 +21,7 @@ function Validator(schema) {
                 childKey = key + "." + childKey
             }
 
-            addError(errors, childKey,
+            addError(errors, childKey, childValue,
                 validator(childValue, childKey, value, object))
         })
 

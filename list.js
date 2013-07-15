@@ -31,13 +31,16 @@ function list(options, message) {
     return function validate(value, key, parent, object) {
         var errors = []
         if (minValidator) {
-            addError(errors, key, minValidator(value, key, parent, object))
+            addError(errors, key, value,
+                minValidator(value, key, parent, object))
         }
         if (maxValidator) {
-            addError(errors, key, maxValidator(value, key, parent, object))
+            addError(errors, key, value,
+                maxValidator(value, key, parent, object))
         }
         if (lengthValidator) {
-            addError(errors, key, lengthValidator(value, key, parent, object))
+            addError(errors, key, value,
+                lengthValidator(value, key, parent, object))
         }
 
         if (contentValidator) {
@@ -47,7 +50,7 @@ function list(options, message) {
                     childKey = key + childKey
                 }
 
-                addError(errors, childKey,
+                addError(errors, childKey, childValue,
                     contentValidator(childValue, childKey, value, object))
             })
         }

@@ -31,13 +31,15 @@ test("Validator can validate objects", function (assert) {
     assert.deepEqual(errors1, [{
         attribute: "key",
         message: "Expected key to be truthy",
-        type: "truthy"
+        type: "truthy",
+        value: false
     }])
     assert.equal(errors2, null)
     assert.deepEqual(errors3, [{
         attribute: "key",
         message: "Expected key to be truthy",
-        type: "truthy"
+        type: "truthy",
+        value: undefined
     }])
 
     assert.end()
@@ -57,11 +59,13 @@ test("Validator can validate multiple attributes", function (assert) {
     assert.deepEqual(errors2, [{
         attribute: "key2",
         message: "Expected key2 to be truthy",
-        type: "truthy"
+        type: "truthy",
+        value: 0
     }, {
         attribute: "key3",
         message: "Expected key3 to be truthy",
-        type: "truthy"
+        type: "truthy",
+        value: undefined
     }])
 
     assert.end()
@@ -79,20 +83,24 @@ test("multiple validations per key", function (assert) {
     assert.deepEqual(errors1, [{
         message: "Expected key to be truthy",
         attribute: "key",
-        type: "truthy"
+        type: "truthy",
+        value: ""
     }, {
         message: "Expected key to be between 5 and 8 characters long",
         attribute: "key",
-        type: "range"
+        type: "range",
+        value: ""
     }])
     assert.deepEqual(errors2, [{
         message: "Expected key to be truthy",
         attribute: "key",
-        type: "truthy"
+        type: "truthy",
+        value: undefined
     }, {
         message: "Expected key to be between 5 and 8 characters long",
         attribute: "key",
-        type: "range"
+        type: "range",
+        value: undefined
     }])
     assert.equal(errors3, null)
 
@@ -110,7 +118,8 @@ test("using function instead of array in schema", function (assert) {
     assert.deepEqual(errors1, [{
         attribute: "key",
         message: "Expected key to be truthy",
-        type: "truthy"
+        type: "truthy",
+        value: undefined
     }])
     assert.equal(errors2, null)
 
@@ -136,7 +145,8 @@ test("can use custom function", function (assert) {
     assert.deepEqual(errors1, [{
         attribute: "key",
         message: "You got's to be good",
-        type: "custom"
+        type: "custom",
+        value: undefined
     }])
     assert.equal(errors2, null)
 
@@ -153,7 +163,8 @@ test("message formatting is optional with placeholders", function (assert) {
     assert.deepEqual(errors, [{
         attribute: "key",
         message: "Invalid range",
-        type: "range"
+        type: "range",
+        value: "four"
     }])
 
     assert.end()
@@ -174,11 +185,13 @@ test("truthy(message)", function (assert) {
     assert.deepEqual(errors1, [{
         attribute: "key1",
         message: "Expected key1 to be truthy",
-        type: "truthy"
+        type: "truthy",
+        value: undefined
     }, {
         attribute: "key2",
         message: "custom error for key2",
-        type: "truthy"
+        type: "truthy",
+        value: undefined
     }])
     assert.equal(errors2, null)
 
@@ -209,19 +222,23 @@ test("type(type, message)", function (assert) {
     assert.deepEqual(errors1, [{
         message: "Expected bool to be a boolean",
         attribute: "bool",
-        type: "type"
+        type: "type",
+        value: ""
     }, {
         message: "Expected str to be a string",
         attribute: "str",
-        type: "type"
+        type: "type",
+        value: {}
     }, {
         message: "Expected obj to be a object",
         attribute: "obj",
-        type: "type"
+        type: "type",
+        value: 0
     }, {
         message: "Expected num to be a number",
         attribute: "num",
-        type: "type"
+        type: "type",
+        value: true
     }])
     assert.equal(errors2, null)
 
@@ -247,17 +264,20 @@ test("range(n, m, message)", function (assert) {
     assert.deepEqual(errors1, [{
         attribute: "key1",
         message: "Expected key1 to be between 5 and 8 characters long",
-        type: "range"
+        type: "range",
+        value: undefined
     }, {
         attribute: "key2",
         message: "key2 Must be greater then 5 and less then 8",
-        type: "range"
+        type: "range",
+        value: undefined
     }])
     assert.equal(errors2, null)
     assert.deepEqual(errors3, [{
         attribute: "key2",
         message: "key2 Must be greater then 5 and less then 8",
-        type: "range"
+        type: "range",
+        value: 9
     }])
 
     assert.end()
@@ -281,11 +301,13 @@ test("isEmail(message)", function (assert) {
     assert.deepEqual(errors1, [{
         attribute: "key1",
         message: "Expected key1 to be a valid email address",
-        type: "email"
+        type: "email",
+        value: "hello@foo"
     }, {
         attribute: "key2",
         message: "Invalid email in key2",
-        type: "email"
+        type: "email",
+        value: "fail@fail"
     }])
     assert.equal(errors2, null)
 
@@ -310,11 +332,13 @@ test("isCreditCard(message)", function (assert) {
     assert.deepEqual(errors1, [{
         attribute: "key1",
         message: "Expected key1 to be a valid credit card",
-        type: "creditCard"
+        type: "creditCard",
+        value: "4112412"
     }, {
         attribute: "key2",
         message: "give us a real card yo.",
-        type: "creditCard"
+        type: "creditCard",
+        value: "WRONG"
     }])
     assert.equal(errors2, null)
 
@@ -343,17 +367,20 @@ test("min(n, message)", function (assert) {
     assert.deepEqual(errors1, [{
         attribute: "key1",
         message: "Expected key1 to be at least 10 characters long",
-        type: "min"
+        type: "min",
+        value: "123456789"
     }, {
         attribute: "key2",
         message: "be at least 12",
-        type: "min"
+        type: "min",
+        value: "12345678901"
     }])
     assert.equal(errors2, null)
     assert.deepEqual(errors3, [{
         attribute: "key1",
         message: "Expected key1 to be at least 10",
-        type: "min"
+        type: "min",
+        value: 5
     }])
 
     assert.end()
@@ -381,17 +408,20 @@ test("max(m, message)", function (assert) {
     assert.deepEqual(errors1, [{
         attribute: "key1",
         message: "Expected key1 to be at most 5 characters long",
-        type: "max"
+        type: "max",
+        value: "123456"
     }, {
         attribute: "key2",
         message: "be at most 4",
-        type: "max"
+        type: "max",
+        value: "1234567"
     }])
     assert.equal(errors2, null)
     assert.deepEqual(errors3, [{
         attribute: "key1",
         message: "Expected key1 to be at most 5",
-        type: "max"
+        type: "max",
+        value: 6
     }])
 
     assert.end()
@@ -415,11 +445,13 @@ test("length(n, message)", function (assert) {
     assert.deepEqual(errors1, [{
         attribute: "key1",
         message: "Expected key1 to be exactly 4 characters long",
-        type: "length"
+        type: "length",
+        value: "12"
     }, {
         attribute: "key2",
         message: "got's to be the right length",
-        type: "length"
+        type: "length",
+        value: "1234567"
     }])
     assert.equal(errors2, null)
 
@@ -444,11 +476,13 @@ test("match(regex, message)", function (assert) {
     assert.deepEqual(errors1, [{
         attribute: "key1",
         message: "Expected key1 to match /^\\d\\d\\d\\d\\/\\d\\d$/",
-        type: "match"
+        type: "match",
+        value: "235/1253"
     }, {
         attribute: "key2",
         message: "custom message",
-        type: "match"
+        type: "match",
+        value: "foo15*@$*"
     }])
     assert.equal(errors2, null)
 
@@ -473,11 +507,13 @@ test("memberOf(whiteList, message)", function (assert) {
     assert.deepEqual(errors1, [{
         attribute: "key1",
         message: "Expected key1 to be in set { 1, 2, 3 }",
-        type: "memberOf"
+        type: "memberOf",
+        value: "fail"
     }, {
         attribute: "key2",
         message: "not in set!",
-        type: "memberOf"
+        type: "memberOf",
+        value: "success"
     }])
     assert.equal(errors2, null)
 
@@ -515,23 +551,28 @@ test("list({ min, max, length, content }, message)", function (assert) {
     assert.deepEqual(errors1, [{
         attribute: "key1[4]",
         message: "Expected key1[4] to be truthy",
-        type: "truthy"
+        type: "truthy",
+        value: ""
     }, {
         attribute: "key2",
         message: "Expected key2 to contain at least 4 items",
-        type: "min"
+        type: "min",
+        value: ["invalid", "number", "of items"]
     }, {
         attribute: "key3[0]",
         message: "not in set!",
-        type: "memberOf"
+        type: "memberOf",
+        value: "valid"
     }, {
         attribute: "key3[1]",
         message: "not in set!",
-        type: "memberOf"
+        type: "memberOf",
+        value: "amount"
     }, {
         attribute: "key3[2]",
         message: "not in set!",
-        type: "memberOf"
+        type: "memberOf",
+        value: "but not match enum"
     }])
     assert.equal(errors2, null)
 
@@ -559,15 +600,18 @@ test("optional(validator)", function (assert) {
     assert.deepEqual(errors1, [{
         message: "Expected key1 to be truthy",
         type: "truthy",
-        attribute: "key1"
+        attribute: "key1",
+        value: false
     }, {
         message: "Expected key2 to between 0 and 5",
         type: "range",
-        attribute: "key2"
+        attribute: "key2",
+        value: -5
     }, {
         message: "Expected key3 to be truthy",
         type: "truthy",
-        attribute: "key3"
+        attribute: "key3",
+        value: 0
     }])
     assert.equal(errors2, null)
 
