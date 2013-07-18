@@ -11,7 +11,7 @@ function min(n, message) {
 
     return function validate(value, key) {
         if (typeof value === "number") {
-            if (value < n) {
+            if (value < n || isNaN(value)) {
                 return {
                     message: format(numberMessage, key, n),
                     type: "min"

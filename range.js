@@ -11,7 +11,7 @@ function range(n, m, message) {
 
     return function validate(value, key) {
         if (typeof value === "number") {
-            if (value < n || value > m) {
+            if (value < n || value > m || isNaN(value)) {
                 return {
                     message: format(numberMessage, key, n, m),
                     type: "range"

@@ -11,7 +11,7 @@ function max(m, message) {
 
     return function validate(value, key) {
         if (typeof value === "number") {
-            if (value > m) {
+            if (value > m || isNaN(value)) {
                 return {
                     message: format(numberMessage, key, m),
                     type: "max"

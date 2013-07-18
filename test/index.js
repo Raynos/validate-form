@@ -260,6 +260,10 @@ test("range(n, m, message)", function (assert) {
         key1: 6,
         key2: 9
     })
+    var errors4 = validate({
+        key1: 6,
+        key2: NaN
+    })
 
     assert.deepEqual(errors1, [{
         attribute: "key1",
@@ -279,6 +283,11 @@ test("range(n, m, message)", function (assert) {
         type: "range",
         value: 9
     }])
+    assert.equal(errors4[0].attribute, "key2")
+    assert.equal(errors4[0].message,
+        "key2 Must be greater then 5 and less then 8")
+    assert.equal(errors4[0].type, "range")
+    assert.ok(isNaN(errors4[0].value))
 
     assert.end()
 })
