@@ -2,16 +2,16 @@ var addError = require("./lib/add-error")
 var normalize = require("./lib/normalize")
 var min = require("./min")
 var max = require("./max")
-var length = require("./length")
+var size = require("./size")
 
-var LENGTH_MESSAGE = "Expected %s to contain exactly %d items"
+var SIZE_MESSAGE = "Expected %s to contain exactly %d items"
 var MIN_MESSAGE = "Expected %s to contain at least %d items"
 var MAX_MESSAGE = "Expected %s to contain at most %d items"
 
 module.exports = list
 
 function list(options, message) {
-    var minValidator, maxValidator, lengthValidator
+    var minValidator, maxValidator, sizeValidator
     var contentValidator = options.content
 
     if (typeof options.min === "number") {
@@ -20,8 +20,8 @@ function list(options, message) {
     if (typeof options.max === "number") {
         maxValidator = max(options.max, message || MAX_MESSAGE)
     }
-    if (typeof options.length === "number") {
-        lengthValidator = length(options.length, message || LENGTH_MESSAGE)
+    if (typeof options.size === "number") {
+        sizeValidator = size(options.size, message || SIZE_MESSAGE)
     }
 
     if (contentValidator) {
@@ -38,9 +38,9 @@ function list(options, message) {
             addError(errors, key, value,
                 maxValidator(value, key, parent, object))
         }
-        if (lengthValidator) {
+        if (sizeValidator) {
             addError(errors, key, value,
-                lengthValidator(value, key, parent, object))
+                sizeValidator(value, key, parent, object))
         }
 
         if (contentValidator) {

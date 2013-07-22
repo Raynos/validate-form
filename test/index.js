@@ -8,7 +8,7 @@ var isEmail = require("../email.js")
 var isCreditCard = require("../credit-card.js")
 var min = require("../min.js")
 var max = require("../max.js")
-var length = require("../length.js")
+var size = require("../size.js")
 var match = require("../match.js")
 var memberOf = require("../member-of.js")
 var list = require("../list.js")
@@ -436,10 +436,10 @@ test("max(m, message)", function (assert) {
     assert.end()
 })
 
-test("length(n, message)", function (assert) {
+test("size(n, message)", function (assert) {
     var validate = Validator({
-        key1: [length(4)],
-        key2: [length(5, "got's to be the right length")]
+        key1: [size(4)],
+        key2: [size(5, "got's to be the right size")]
     })
 
     var errors1 = validate({
@@ -454,12 +454,12 @@ test("length(n, message)", function (assert) {
     assert.deepEqual(errors1, [{
         attribute: "key1",
         message: "Expected key1 to be exactly 4 characters long",
-        type: "length",
+        type: "size",
         value: "12"
     }, {
         attribute: "key2",
-        message: "got's to be the right length",
-        type: "length",
+        message: "got's to be the right size",
+        type: "size",
         value: "1234567"
     }])
     assert.equal(errors2, null)
