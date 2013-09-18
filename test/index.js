@@ -606,8 +606,6 @@ test("optional(validator)", function (assert) {
         key3: true
     })
 
-    console.log("errors1", errors1)
-
     assert.deepEqual(errors1, [{
         message: "Expected key1 to be truthy",
         type: "truthy",
