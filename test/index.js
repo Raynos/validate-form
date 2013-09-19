@@ -543,18 +543,24 @@ test("list({ min, max, length, content }, message)", function (assert) {
         key3: [list({
             length: 3,
             content: [memberOf(["1", "2", "3"], "not in set!")]
-        }, "wrong list error thing")]
+        }, "wrong list error thing")],
+        key4: [list([truthy()])],
+        key5: [list(truthy())]
     })
 
     var errors1 = validate({
         key1: ["valid", "number of items", "but", "fail", "", "truthy"],
         key2: ["invalid", "number", "of items"],
-        key3: ["valid", "amount", "but not match enum"]
+        key3: ["valid", "amount", "but not match enum"],
+        key4: ["something"],
+        key5: ["something"]
     })
     var errors2 = validate({
         key1: ["1", "2", "3", "4", "5", "6"],
         key2: ["1", "2", "3", "4", "5"],
-        key3: ["1", "2", "3"]
+        key3: ["1", "2", "3"],
+        key4: ["something"],
+        key5: ["something"]
     })
 
     assert.deepEqual(errors1, [{
