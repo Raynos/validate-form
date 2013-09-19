@@ -13,6 +13,10 @@ var NOT_ARRAY_MESSAGE = "Expected %s to be an array"
 module.exports = list
 
 function list(options, message) {
+    if (typeof options === "function" || Array.isArray(options)) {
+        options = { content: options }
+    }
+
     var minValidator, maxValidator, sizeValidator
     var contentValidator = options.content
 
