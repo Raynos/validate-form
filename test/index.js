@@ -13,6 +13,7 @@ var match = require("../match.js")
 var memberOf = require("../member-of.js")
 var list = require("../list.js")
 var optional = require("../optional.js")
+var validateIf = require("../validate-if.js")
 
 test("Validator is a function", function (assert) {
     assert.equal(typeof Validator, "function")
@@ -629,6 +630,62 @@ test("optional(validator)", function (assert) {
         value: 0
     }])
     assert.equal(errors2, null)
+
+    assert.end()
+})
+
+test("validateIf(key, test, validator)", function (assert) {
+    var validate = Validator({
+        option: type(Boolean),
+        key1: validateIf("option", truthy(), optional(truthy())),
+        key2: validateIf("option", [truthy()], optional([range(0, 5)])),
+        key3: validateIf("option", truthy(), optional([truthy()]))
+    })
+
+    var errors1 = validate({
+        option: true,
+        key1: false,
+        key2: -5,
+        key3: 0
+    })
+    var errors2 = validate({
+        option: true,
+        key1: null,
+        key2: undefined,
+        key3: true
+    })
+    var errors3 = validate({
+        option: false,
+        key1: false,
+        key2: -5,
+        key3: 0
+    })
+    var errors4 = validate({
+        option: false,
+        key1: null,
+        key2: undefined,
+        key3: true
+    })
+
+    assert.deepEqual(errors1, [{
+        message: "Expected key1 to be truthy",
+        type: "truthy",
+        attribute: "key1",
+        value: false
+    }, {
+        message: "Expected key2 to between 0 and 5",
+        type: "range",
+        attribute: "key2",
+        value: -5
+    }, {
+        message: "Expected key3 to be truthy",
+        type: "truthy",
+        attribute: "key3",
+        value: 0
+    }])
+    assert.equal(errors2, null)
+    assert.equal(errors3, null)
+    assert.equal(errors4, null)
 
     assert.end()
 })
