@@ -14,6 +14,7 @@ var memberOf = require("../member-of.js")
 var list = require("../list.js")
 var optional = require("../optional.js")
 var validateIf = require("../validate-if.js")
+var equal = require("../equal.js")
 
 test("Validator is a function", function (assert) {
     assert.equal(typeof Validator, "function")
@@ -686,6 +687,63 @@ test("validateIf(key, test, validator)", function (assert) {
     assert.equal(errors2, null)
     assert.equal(errors3, null)
     assert.equal(errors4, null)
+
+    assert.end()
+})
+
+
+test("equal(key, message)", function (assert) {
+    var validate = Validator({
+        key1: [equal("key2")]
+    })
+
+    var error1 = validate({
+        key1: "Beep",
+        key2: "Boop"
+    })
+    var error2 = validate({
+        key1: true,
+        key2: false
+    })
+    var error3 = validate({
+        key1: 13,
+        key2: 19
+    })
+    var error4 = validate({
+        key1: "Boop",
+        key2: "Boop"
+    })
+    var error5 = validate({
+        key1: false,
+        key2: false
+    })
+    var error6 = validate({
+        key1: 19,
+        key2: 19
+    })
+
+
+    assert.deepEqual(error1, [{
+        attribute: "key1",
+        message: "Expected key1 to be equal to key2",
+        type: "equal",
+        value: "Beep"
+    }])
+    assert.deepEqual(error2, [{
+        attribute: "key1",
+        message: "Expected key1 to be equal to key2",
+        type: "equal",
+        value: true
+    }])
+    assert.deepEqual(error3, [{
+        attribute: "key1",
+        message: "Expected key1 to be equal to key2",
+        type: "equal",
+        value: 13
+    }])
+    assert.equal(error4, null)
+    assert.equal(error5, null)
+    assert.equal(error6, null)
 
     assert.end()
 })
