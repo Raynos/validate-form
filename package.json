@@ -4,16 +4,16 @@
   "description": "Simple functional form validation",
   "keywords": [],
   "author": "Raynos <raynos2@gmail.com>",
-  "repository": "git://github.com/Colingo/validate-form.git",
-  "main": "hash.js",
-  "homepage": "https://github.com/Colingo/validate-form",
+  "repository": "git://github.com/Raynos/validate-form.git",
+  "main": "index.js",
+  "homepage": "https://github.com/Raynos/validate-form",
   "contributors": [
     {
       "name": "Raynos"
     }
   ],
   "bugs": {
-    "url": "https://github.com/Colingo/validate-form/issues",
+    "url": "https://github.com/Raynos/validate-form/issues",
     "email": "raynos2@gmail.com"
   },
   "dependencies": {
