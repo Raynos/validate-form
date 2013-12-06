@@ -106,15 +106,15 @@ validate-form/add-error := (errors: Array<ValidationError>, key: String,
 ## MIT Licenced
 
 
-  [1]: https://secure.travis-ci.org/Colingo/validate-form.png
-  [2]: https://travis-ci.org/Colingo/validate-form
+  [1]: https://secure.travis-ci.org/Raynos/validate-form.png
+  [2]: https://travis-ci.org/Raynos/validate-form
   [3]: https://badge.fury.io/js/validate-form.png
   [4]: https://badge.fury.io/js/validate-form
-  [5]: https://coveralls.io/repos/Colingo/validate-form/badge.png
-  [6]: https://coveralls.io/r/Colingo/validate-form
-  [7]: https://gemnasium.com/Colingo/validate-form.png
-  [8]: https://gemnasium.com/Colingo/validate-form
-  [9]: https://david-dm.org/Colingo/validate-form.png
-  [10]: https://david-dm.org/Colingo/validate-form
-  [11]: https://ci.testling.com/Colingo/validate-form.png
-  [12]: https://ci.testling.com/Colingo/validate-form
+  [5]: https://coveralls.io/repos/Raynos/validate-form/badge.png
+  [6]: https://coveralls.io/r/Raynos/validate-form
+  [7]: https://gemnasium.com/Raynos/validate-form.png
+  [8]: https://gemnasium.com/Raynos/validate-form
+  [9]: https://david-dm.org/Raynos/validate-form.png
+  [10]: https://david-dm.org/Raynos/validate-form
+  [11]: https://ci.testling.com/Raynos/validate-form.png
+  [12]: https://ci.testling.com/Raynos/validate-form
